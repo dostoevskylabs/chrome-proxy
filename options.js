@@ -1,5 +1,9 @@
 let savedScopes = [];
 
+function getHost ( url ) {
+	return ( url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0] ).split(":")[0].split("?")[0];
+}
+
 function remove( scope ) {
   let index = savedScopes.indexOf( scope );
   if ( index !== -1 ) {
@@ -17,7 +21,7 @@ function remove( scope ) {
 }
 
 function save_options () {
-  let scope       = document.getElementById('scope').value;
+  let scope       = getHost(document.getElementById('scope').value);
   savedScopes.push(scope);
   chrome.storage.sync.set({
     savedScopes
@@ -30,6 +34,7 @@ function save_options () {
   });
 }
 
+// super hacker bs
 function restore_options () {
   chrome.storage.sync.get({
     savedScopes: [],
