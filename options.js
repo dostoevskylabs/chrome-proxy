@@ -1,6 +1,6 @@
 let savedScopes = [];
 
-const getHost = ( url ) => ( url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0] ).split(":")[0].split("?")[0];
+const getHost = ( url ) => ( url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0].split(":")[0].split("?")[0]);
 
 function remove( scope ) {
   let index = savedScopes.indexOf( scope );
