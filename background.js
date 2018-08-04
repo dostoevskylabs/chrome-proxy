@@ -1,9 +1,7 @@
 let scope       = [];
 let currentHost = "";
 
-function getHost ( url ) {
-	return ( url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0] ).split(":")[0].split("?")[0];
-}
+const getHost = ( url ) => ( url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0] ).split(":")[0].split("?")[0] );
 
 chrome.tabs.onActivated.addListener(function(currentTab) {
 	chrome.storage.sync.get({
