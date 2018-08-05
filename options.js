@@ -1,4 +1,10 @@
 const status = document.getElementById('status');
+const scope = document.getElementById('scope');
+scope.addEventListener('keypress', function(evt){
+  if ( evt.key === "Enter" ) {
+    save_option();
+  }
+});
 
 function sendBackgroundMessage( method, data ) {
   chrome.extension.sendRequest({ method, data }, function ( response ) {
