@@ -1,26 +1,24 @@
 let scopeArray 	= [];
 const getHost 	= ( url ) => {
-	if ( !url ) return false;
-	return url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0].split(":")[0].split("?")[0];
+  if ( !url ) return false;
+  return url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0].split(":")[0].split("?")[0];
 };
 
 function handleRequest( requestData, sendResponse ) {
-	switch ( requestData.method ) {
-		case 'INIT':
-			sendResponse({
-				method 	: 'INIT',
-				data 		: scopeArray
-			});
-		break;
-
-		case 'SAVE':
-			addScope( requestData.data, sendResponse );
-		break;
-		
-		case 'DELETE':
-			removeScope( requestData.data, sendResponse );
-		break;
-	}
+  switch ( requestData.method ) {
+    case 'INIT':
+      sendResponse({
+        method 	: 'INIT',
+        data 		: scopeArray
+      });
+    break;
+    case 'SAVE':
+      addScope( requestData.data, sendResponse );
+    break;  
+    case 'DELETE':
+      removeScope( requestData.data, sendResponse );
+    break;
+  }
 }
 
 chrome.extension.onRequest.addListener(
