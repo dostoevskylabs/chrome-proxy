@@ -34,7 +34,7 @@ function addScope( scope, sendResponse ) {
       savedScopes : scopeArray
     }, function() {
       return sendResponse({
-        method 	: 'saveSuccess',
+        method 		: 'saveSuccess',
         data 		: getHost( scope )
       });
     });
@@ -49,7 +49,7 @@ function addScope( scope, sendResponse ) {
 function removeScope( scope, sendResponse ) {
   if ( !scopeArray.includes( getHost( scope ) ) ) {
     return sendResponse({
-       method 	: 'deleteFailed',
+       method 		: 'deleteFailed',
        data 		: 'Scope doesn\'t exist.'
     });
   } else {
