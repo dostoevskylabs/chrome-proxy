@@ -11,9 +11,9 @@ function handleResponse( responseData ) {
     case 'INIT':
       const scopes = document.getElementById('scopes');
       for ( let i = 0; i < responseData['data'].length; i++ ) {
-        var element = document.createElement("a");
+        const element = document.createElement("a");
         element.href = '#';
-        element.id = "remove-" + responseData['data'][i];
+        element.id = `remove-${responseData['data'][i]}`;
         element.innerHTML = responseData['data'][i];
         scopes.appendChild(element);
         scopes.appendChild(document.createElement('br'));
@@ -61,7 +61,7 @@ function handleResponse( responseData ) {
 }
 
 function save_option () {
-  let scope       = document.getElementById('scope').value;
+  let scope = document.getElementById('scope').value;
   sendBackgroundMessage( 'SAVE', scope);
 }
 
