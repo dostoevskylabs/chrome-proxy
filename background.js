@@ -81,8 +81,7 @@ chrome.storage.sync.get({
 const config = {
   mode: "fixed_servers",
   rules: {
-    proxyForHttp: {
-      scheme: "http",
+    singleProxy: {
       host: "127.0.0.1",
       port: 8080
     }
