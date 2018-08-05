@@ -1,2 +1,2 @@
 # chrome-proxy
-Proxy only in-scope pages to BurpSuite
+Proxy only in-scope hosts to BurpSuite
