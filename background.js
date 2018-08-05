@@ -60,8 +60,8 @@ function removeScope( scope, sendResponse ) {
         savedScopes : scopeArray
       }, function() {
         return sendResponse({
-          method 	: 'deleteSuccess',
-          data 		: getHost( scope )
+          method	: 'deleteSuccess',
+          data		: getHost( scope )
         });
       });    
     }
