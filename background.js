@@ -41,7 +41,7 @@ function addScope( scope, sendResponse ) {
   } else {
     return sendResponse({
       method 		: 'saveFailed',
-      data			: 'Scope exists.'
+      data		: 'Scope exists.'
     });
   }
 }
