@@ -95,8 +95,8 @@ const config = {
 
 chrome.webRequest.onBeforeRequest.addListener( function ( details ) {
 	if ( scopeArray.includes( getHost( details.url ) ) ) {
-		chrome.proxy.settings.set({ value: config, scope: 'regular' }, function () {
-			console.log('aye');
+    chrome.proxy.settings.set({ value: config, scope: 'regular' }, function () {
+			// proxying
 		});
 
 		return { cancel: false };
