@@ -34,8 +34,8 @@ function addScope( scope, sendResponse ) {
       savedScopes : scopeArray
     }, function() {
       return sendResponse({
-        method 		: 'saveSuccess',
-        data 		: getHost( scope )
+        method		: 'saveSuccess',
+        data		: getHost( scope )
       });
     });
   } else {
