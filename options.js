@@ -1,53 +1,69 @@
-let savedScopes = [];
+const status = document.getElementById('status');
 
-const getHost = ( url ) => ( url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0].split(":")[0].split("?")[0]);
+function sendBackgroundMessage( method, data ) {
+  chrome.extension.sendRequest({ method, data }, function ( response ) {
+    handleResponse( response );
+  });
+}
 
-function remove( scope ) {
-  let index = savedScopes.indexOf( scope );
-  if ( index !== -1 ) {
-    savedScopes.splice(index, 1);
-    chrome.storage.sync.set({
-      savedScopes
-    }, function() {
-      let status = document.getElementById('status');
-      status.textContent = 'Scope removed.';
+function handleResponse( responseData ) {
+  switch ( responseData.method ) {
+    case 'INIT':
+      const scopes = document.getElementById('scopes');
+      for ( let i = 0; i < responseData['data'].length; i++ ) {
+        var element = document.createElement("a");
+        element.href = '#';
+        element.id = "remove-" + responseData['data'][i];
+        element.innerHTML = responseData['data'][i];
+        scopes.appendChild(element);
+        scopes.appendChild(document.createElement('br'));
+
+        element.addEventListener('click', function(evt){
+          sendBackgroundMessage( 'DELETE', evt.target.id.split('-')[1]);
+        })
+      }
+    break;
+
+    case 'saveSuccess':
+      status.textContent = 'Scope saved.';
+
       setTimeout(function() {
         window.location.reload();
-      }, 750);    
-    });    
+      }, 750);
+    break;
+
+    case 'saveFailed':
+      status.textContent = 'Scope already exists.';
+
+      setTimeout(function() {
+        status.textContent = '';
+      }, 750);
+    break;
+
+    case 'deleteSuccess':
+      status.textContent = 'Scope deleted.';
+
+      setTimeout(function() {
+        status.textContent = '';
+      }, 750);
+
+      document.getElementById(`remove-${responseData['data']}`).remove();
+    break;
+
+    case 'deleteFailed':
+      status.textContent = 'Scope doesn\'t exist.';
+
+      setTimeout(function() {
+        status.textContent = '';
+      }, 750);
+    break;
   }
 }
 
-function save_options () {
-  let scope       = getHost(document.getElementById('scope').value);
-  savedScopes.push(scope);
-  chrome.storage.sync.set({
-    savedScopes
-  }, function() {
-    let status = document.getElementById('status');
-    status.textContent = 'Options saved.';
-    setTimeout(function() {
-      window.location.reload();
-    }, 750);
-  });
+function save_option () {
+  let scope       = document.getElementById('scope').value;
+  sendBackgroundMessage( 'SAVE', scope);
 }
 
-// super hacker bs
-function restore_options () {
-  chrome.storage.sync.get({
-    savedScopes: [],
-  }, function(item) {
-    for ( let i in item.savedScopes ) {
-      savedScopes.push ( item.savedScopes[i] );
-      document.getElementById('scopes').innerHTML += "<a href='#' id='remove-"+savedScopes[i]+"'>"+savedScopes[i]+"</a><br/>";
-    }
-    for ( let i = 0; i < savedScopes.length; i++ ) {
-      document.getElementById('remove-' + savedScopes[i]).addEventListener('click', function(evt){
-        remove(evt.target.id.split('-')[1]);
-      })
-    }
-  });
-}
-
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click', save_options);
+document.addEventListener('DOMContentLoaded', sendBackgroundMessage('INIT', {}));
+document.getElementById('save').addEventListener('click', save_option);
