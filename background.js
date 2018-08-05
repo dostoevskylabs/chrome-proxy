@@ -1,4 +1,4 @@
-let scopeArray 	= [];
+let scopeArray 	 = [];
 const getHost 	= ( url ) => {
   if ( !url ) return false;
   return url.indexOf("://") > -1 ? url.split("/")[2] : url.split("/")[0].split(":")[0].split("?")[0];
