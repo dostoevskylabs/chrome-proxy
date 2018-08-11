@@ -2,8 +2,7 @@
   "manifest_version":2,
   "name": "Chrome Proxy",
   "version": "1.0",
-  "description": "proxy only in-scope domains",
-  "options_page": "options.html",
+  "description": "Proxy a specific tab through BurpSuite",
   "background": {
     "scripts": ["background.js"]
   },
@@ -11,13 +10,19 @@
     "default_icon": "icons/test-48.png"
   },
   "permissions": [
-    "webRequest",
-    "webRequestBlocking",
-    "<all_urls>",
-    "storage",
-    "proxy"
+    "proxy",
+    "tabs"
   ],
   "icons": {
     "48": "icons/test-48.png"
+  },
+  "commands": {
+    "toggle-proxy": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+I",
+        "mac": "Command+Shift+I"
+      },
+      "description": "Toggle proxying of tab."
+    }
   }
 }
