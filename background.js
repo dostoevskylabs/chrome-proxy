@@ -72,6 +72,7 @@ chrome.commands.onCommand.addListener(
   }
 );
 
+// on tab close
 chrome.tabs.onRemoved.addListener(
   function(tabId, removed) {
     // if a scoped tab was closed we remove scope
