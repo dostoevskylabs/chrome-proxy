@@ -46,9 +46,11 @@ chrome.commands.onCommand.addListener(
       case 'toggle-proxy':
         chrome.tabs.query({ currentWindow: true, active: true },
           function ( currentTab ) { 
+            if ( !currentTab.length ) return 0;
             let tabId = currentTab[0].id;
             scopedTabId === 0 ? addTabToScope( tabId ) : removeTabFromScope( tabId );          
             if ( scopedTabId !== 0 ) {
+              console.log(tabId);
               osd( tabId );
               chrome.proxy.settings.set({ value: config, scope: 'regular' }, function () {});
             } else {
@@ -58,6 +60,14 @@ chrome.commands.onCommand.addListener(
           }
         );      
       break;
+    }
+  }
+);
+
+chrome.tabs.onRemoved.addListener(
+  function(tabId, removed) {
+    if ( tabId === scopedTabId ) {
+      scopedTabId = 0;
     }
   }
 );
