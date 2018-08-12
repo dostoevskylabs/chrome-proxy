@@ -1,3 +1,4 @@
+'use strict';
 let scopedTabId = 0;
 
 // dat burp doe.
