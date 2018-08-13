@@ -20,7 +20,7 @@
   "commands": {
     "toggle-proxy": {
       "suggested_key": {
-        "default": "Ctrl+Shift+I",
+        "default": "Ctrl+I",
         "mac": "Command+Shift+I"
       },
       "description": "Toggle proxying of tab."
