@@ -50,14 +50,8 @@ chrome.commands.onCommand.addListener(
             let tabId = currentTab[0].id;
             scopedTabId === 0 ? addTabToScope( tabId ) : removeTabFromScope( tabId );  // toggle add/remove scope
           
-            // if a scope is set we proxy
-            if ( scopedTabId !== 0 ) {
-              osd( tabId );
-              chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {});
-            } else { // else we don't
-              osd( tabId );
-              chrome.proxy.settings.clear({ scope: 'regular' }, () => {});
-            }
+            // create osd
+            osd( tabId );
           }
         );      
       break;
@@ -75,16 +69,20 @@ chrome.tabs.onRemoved.addListener(
   }
 );
 
-// triggers when switching tabs
-chrome.tabs.onActivated.addListener(
-  ( currentTab ) => {
-    // check if current tab should be proxied
-    if ( currentTab.tabId === scopedTabId ) {
-      // enable proxy
-      chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {});
-    } else {
-      // disable proxy
-      chrome.proxy.settings.clear({ scope: 'regular' }, () => {});
-    }
+// triggers on each web request
+chrome.webRequest.onBeforeRequest.addListener( function ( details ) {
+  // capture initial request if it originates from tabId -1 and a scope is set
+  if ( !details.tabId && scopedTabId ) {
+    chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
+      return { cancel: false }; // allow request
+    });
+  } else if ( details.tabId !== scopedTabId ) { // clear proxy settings if not a scopedTab
+    chrome.proxy.settings.clear({ scope: 'regular' }, () => {
+      return { cancel: false }; // allow request
+    });
+  } else { // proxy if scopedTab
+    chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
+      return { cancel: false }; // allow request
+    });
   }
-);
+}, {urls: ["<all_urls>"]}, ["blocking"]);
