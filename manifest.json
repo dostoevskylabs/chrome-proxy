@@ -12,7 +12,10 @@
   "permissions": [
     "proxy",
     "tabs",
-    "notifications"
+    "notifications",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
   ],
   "icons": {
     "48": "icons/test-48.png"
