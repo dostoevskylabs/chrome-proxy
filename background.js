@@ -31,7 +31,10 @@ function osd ( tabId ) {
       title   : template,
       message : '',
       iconUrl : 'icons/test-48.png',
-    }, () => {}
+    }, () => {
+      // clear notifications once they are up so that status can be tracked quicker.
+      chrome.notifications.clear();
+    }
   );
 }
 
