@@ -25,15 +25,18 @@ function removeTabFromScope ( tabId ) {
 // generate an osd to notify when intercepting
 function osd ( tabId ) {
   let template = scopedTabId ? `Started intercepting tab: ${tabId}` : `Stopped intercepted tab: ${tabId}`;
-
-  chrome.notifications.create( Math.random().toString(36).substring(0, 12), {
+  let notificationId = Math.random().toString(36).substring(0, 12);
+  
+  chrome.notifications.create( notificationId, {
       type    : 'basic',
       title   : template,
       message : '',
       iconUrl : 'icons/test-48.png',
     }, () => {
       // clear notifications once they are up so that status can be tracked quicker.
-      chrome.notifications.clear();
+      setTimeout(() => {
+        chrome.notifications.clear( notificationId );
+      }, 500);
     }
   );
 }
