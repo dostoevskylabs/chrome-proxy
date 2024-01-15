@@ -1,6 +1,6 @@
 # chrome-proxy
 Proxy a specific tab to BurpSuite while leaving all other tabs unproxied.
-
+a
 ## HotKeys
 ### Toggle Tab Intercept
 #### MacOS
